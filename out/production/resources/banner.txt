@@ -1,0 +1,10 @@
+
+${AnsiColor.YELLOW}  ______  ______   _    _    _____
+${AnsiColor.YELLOW} |___  / |  ____| | |  | |  / ____|
+${AnsiColor.YELLOW}    / /  | |__    | |  | | | (___
+${AnsiColor.YELLOW}   / /   |  __|   | |  | |  \___ \
+${AnsiColor.YELLOW}  / /__  | |____  | |__| |  ____) |
+${AnsiColor.YELLOW} /_____| |______|  \____/  |_____/
+
+${AnsiColor.BRIGHT_BLUE}:: --> Sebastian Vega
+${AnsiColor.DEFAULT}
