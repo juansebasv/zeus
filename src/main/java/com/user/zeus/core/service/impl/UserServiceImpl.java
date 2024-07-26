@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDO> getAllUsersOrderBy(String param, String order) {
+    public List<UserDO> getAllUsersOrderedBy(String param, String order) {
         List<UserDO> userDOList = userPort.getAllUsers();
 
         SortingParameter sortParam = SortingParameter.valueOf(param.toUpperCase());
@@ -67,8 +67,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDO> getUserByID(String userId) {
-        return userPort.getAllUsersById(userId);
+    public UserDO getUserByID(String userId) {
+        return userPort.getUserById(userId);
     }
 
     @Override
