@@ -10,4 +10,5 @@ import org.springframework.stereotype.Component;
 public class UserProperties {
 
     private String usersAllUrl;
+    private String usersAllUrlId;
 }

@@ -21,10 +21,10 @@ public interface UserService {
      *
      * @param param The parameter to order by (e.g., "name", "email", etc.).
      * @param order The order direction ("ASC" for ascending, "DESC" for descending).
-     * @return a List<UserDO> object containing the ordered details of all users.
+     * @return a List<UserDO> object containing the details of all users.
      * @throws IllegalArgumentException if the param or order is invalid.
      */
-    List<UserDO> getAllUsersOrderBy(String param, String order);
+    List<UserDO> getAllUsersOrderedBy(String param, String order);
 
     /**
      * Retrieves a user by their ID.
@@ -33,7 +33,7 @@ public interface UserService {
      * @return a List<UserDO> object containing the user with the specified ID.
      * The list will be empty if no user is found with the given ID.
      */
-    List<UserDO> getUserByID(String userId);
+    UserDO getUserByID(String userId);
 
     /**
      * Retrieves all users from a specified country.
