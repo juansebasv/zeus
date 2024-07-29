@@ -16,7 +16,7 @@ public interface UserPort {
     /**
      * Retrieves a list of all users.
      *
-     * @return A list of {@link UserDO} objects representing the users by Id.
+     * @return An object of {@link UserDO} objects representing the user by Id.
      */
-    List<UserDO> getAllUsersById(String userId);
+    UserDO getUserById(String userId);
 }

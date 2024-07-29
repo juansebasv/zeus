@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -41,13 +42,10 @@ public class UserWebClientAdapter implements UserPort {
     }
 
     @Override
-    public List<UserDO> getAllUsersById(String userId) {
+    public UserDO getUserById(String userId) {
         log.info("Getting All Users By ID from API");
-        var listUsersResponse = doRequestById(userId);
-        return listUsersResponse
-                .stream()
-                .map(userWebClientMapper::buildUserDO)
-                .collect(Collectors.toList());
+        var usersResponse = doRequestById(userId);
+        return userWebClientMapper.buildUserDO(usersResponse);
     }
 
     private List<GetUserResponse> doRequest() {
@@ -67,15 +65,17 @@ public class UserWebClientAdapter implements UserPort {
                 .block();
     }
 
-    private List<GetUserResponse> doRequestById(String userId) {
+    private GetUserResponse doRequestById(String userId) {
         log.info("Calling API to get all users by ID");
-        String uri = UriComponentsBuilder.fromHttpUrl(userProperties.getUsersAllUrl()).toUriString();
+        var urlParam = Map.of("userId", userId);
+        String uri = UriComponentsBuilder.fromHttpUrl(userProperties.getUsersAllUrlId())
+                .buildAndExpand(urlParam)
+                .toUriString();
 
         return webClient.get()
                 .uri(uri)
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<GetUserResponse>>() {
-                })
+                .bodyToMono(GetUserResponse.class)
                 .onErrorMap(ex -> {
                     log.error("Error getting all users form API");
                     log.error("Exception message {}", ex.getMessage());

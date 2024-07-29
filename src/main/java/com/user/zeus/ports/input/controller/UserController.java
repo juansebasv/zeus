@@ -59,7 +59,7 @@ public class UserController {
     public List<UserResponse> getAllUsersOrderBy(
             @Parameter(description = "Parameter to order by", required = true) @Valid @NotBlank @PathVariable("param") @Size(min = 1, max = 10) String param,
             @Parameter(description = "Order direction (ASC or DESC)", required = true) @Valid @NotBlank @PathVariable("order") @Size(min = 3, max = 4) String order) {
-        var userDOLIst = userService.getAllUsersOrderBy(param, order);
+        var userDOLIst = userService.getAllUsersOrderedBy(param, order);
         return userDOLIst
                 .stream()
                 .map(userMapper::requestToDomain)
@@ -73,13 +73,10 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public List<UserResponse> getUserByID(
+    public UserResponse getUserByID(
             @Parameter(description = "ID of the user", required = true) @Valid @NotBlank @PathVariable("userId") @Size(min = 1, max = 5) String userId) {
-        var userDOLIst = userService.getUserByID(userId);
-        return userDOLIst
-                .stream()
-                .map(userMapper::requestToDomain)
-                .collect(Collectors.toList());
+        var userDO = userService.getUserByID(userId);
+        return userMapper.requestToDomain(userDO);
     }
 
     @GetMapping("/{country}")
