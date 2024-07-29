@@ -83,19 +83,13 @@ Thumbs.db
 *.sw?
 *~
 .#*
-.*.md.html
 .metadata
 .recommenders
 
 # MapStruct
 generated/
 
-# Swagger
-swagger-ui.html
-
 # Application properties
-application*.yml
-application*.properties
 !application-example.yml
 !application-example.properties
 

@@ -1,4 +1,4 @@
-# zeus
+# Zeus
 
 # User Management API
 
