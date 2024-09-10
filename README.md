@@ -1,139 +1,273 @@
 # Zeus
 
-# User Management API
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
+
+Zeus is a user management microservice built with Spring Boot 3.3.1 and Java 17.
+
+## Version
+1.0
+
+## Author
+Sebastian Vega
 
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [API Endpoints](#api-endpoints)
-3. [Getting Started](#getting-started)
-4. [Authentication](#authentication)
-5. [Request/Response Formats](#requestresponse-formats)
-6. [Error Handling](#error-handling)
-7. [Rate Limiting](#rate-limiting)
-8. [Examples](#examples)
-9. [Contributing](#contributing)
-10. [License](#license)
+- [Prerequisites](#prerequisites)
+- [Technologies and Dependencies](#technologies-and-dependencies)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [Configuration](#configuration)
+- [Documentation](#documentation)
+- [Build and Run](#build-and-run)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Introduction
+## Prerequisites
+- Java 17
+- Gradle 7.x or later
 
-Welcome to the User Management API documentation. This API provides a comprehensive set of endpoints for managing user data, including retrieving user information, filtering users by various criteria, and sorting user lists.
+## Technologies and Dependencies
+Zeus is built using the following technologies and major dependencies:
 
-The API is built using Spring Boot and follows RESTful principles. It uses Swagger/OpenAPI for documentation, ensuring that all endpoints are well-described and easily testable.
+- **Java**: Version 17
+- **Spring Boot**: Version 3.3.1
+   - Spring Boot Starter
+   - Spring Boot Starter Validation
+   - Spring Boot Starter Web
+   - Spring Boot Starter WebFlux
+- **Gradle**:
+   - Gradle Wrapper (included in the project)
+   - Plugins:
+      - org.springframework.boot: Version 3.3.1
+      - io.spring.dependency-management: Version 1.1.5
+- **Lombok**: Version 1.18.32 - Reduces boilerplate code
+- **MapStruct**: Version 1.5.5.Final - Simplifies object mapping
+   - MapStruct Spring Extensions: Version 1.1.1
+- **SpringDoc OpenAPI**: Version 2.6.0 - API documentation
+- **Micrometer**: For observability and metrics
+- **Jakarta Validation API**: For bean validation
+- **JUnit**: For unit testing
+- **Spring Security Test**: For security testing in a Spring context
 
-## API Endpoints
-
-Here's a quick overview of the available endpoints:
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/users/all` | Retrieve all users |
-| GET | `/users/all/param/{param}/order/{order}` | Get all users ordered by a specific parameter |
-| GET | `/users/{userId}/profile` | Get a specific user's profile by ID |
-| GET | `/users/{country}` | Get users from a specific country |
-| GET | `/users/{name}/{company}` | Get users by name and company |
-| GET | `/users/email/{email}` | Get users by email domain |
+Additional tools and libraries:
+- Swagger UI: For interactive API documentation
+- Spring Boot Actuator: For application monitoring and management
 
 ## Getting Started
+To get started with Zeus, clone the repository and build the project:
 
-To use this API, you need to have:
-1. Java 17 or higher
-2. Spring Boot 2.5.0 or higher
-3. Maven or Gradle for dependency management
+```bash
+git clone https://github.com/juansebasv/zeus.git
+cd zeus
+./gradlew build
+```
 
-To run the application locally:
+## Project Structure
+Zeus follows a hexagonal architecture pattern, separating the core domain logic from external concerns.
 
-1. Clone the repository
-2. Navigate to the project directory
-3. Run `mvn spring-boot:run` or `gradle bootRun`
-4. The API will be available at `http://localhost:8080`
+## API Endpoints
+Zeus provides the following REST endpoints for user management:
 
-## Authentication
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/users/all` | GET | Retrieves a list of all users. |
+| `/users/all/param/{param}/order/{order}` | GET | Retrieves a list of all users ordered by a specified parameter and direction. |
+| `/users/{userId}/profile` | GET | Retrieves a user's profile by their ID. |
+| `/users/{country}` | GET | Retrieves a list of users from a specified country. |
+| `/users/{name}/{company}` | GET | Retrieves a list of users with the specified name and company. |
+| `/users/email/{email}` | GET | Retrieves a list of users with email addresses in the specified domain. |
 
-[Include information about authentication methods used by the API]
+## Configuration
+The application can be configured using the `application.properties` file. Key configurations include:
 
-## Request/Response Formats
+- Server port: 8080
+- Context path: /
+- Application name: zeus
+- External API URLs for user data
 
-All responses are in JSON format. Here's a sample response structure for a user:
+## Documentation
+API documentation is available via Swagger UI. Access it at:
 
+```
+http://localhost:8080/swagger-ui.html
+```
+
+The OpenAPI specification is available at:
+
+```
+http://localhost:8080/api-docs
+```
+
+## Build and Run
+To build the project:
+
+```bash
+./gradlew build
+```
+
+To run the application:
+
+```bash
+./gradlew bootRun
+```
+
+The application will start on `http://localhost:8080`.
+
+## API Usage Examples
+
+### Get All Users
+
+Request:
+```
+GET /users/all
+```
+
+Response:
+```json
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "country": "USA",
+    "company": "Tech Corp"
+  },
+  {
+    "id": "2",
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "country": "Canada",
+    "company": "Innovate Inc"
+  }
+]
+```
+
+### Get Users Ordered
+
+Request:
+```
+GET /users/all/param/name/order/ASC
+```
+
+Response:
+```json
+[
+  {
+    "id": "2",
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "country": "Canada",
+    "company": "Innovate Inc"
+  },
+  {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "country": "USA",
+    "company": "Tech Corp"
+  }
+]
+```
+
+### Get User by ID
+
+Request:
+```
+GET /users/1/profile
+```
+
+Response:
 ```json
 {
-  "id": 1,
+  "id": "1",
   "name": "John Doe",
-  "company": "ACME Inc.",
-  "username": "johnd",
-  "email": "john.doe@acme.com",
-  "address": "123 Main St, Anytown, USA",
-  "zip": "12345",
-  "state": "CA",
+  "email": "john.doe@example.com",
   "country": "USA",
-  "phone": "+1 123-456-7890",
-  "photo": "http://example.com/photo.jpg"
+  "company": "Tech Corp"
 }
 ```
 
-## Error Handling
+### Get Users by Country
 
-The API uses standard HTTP status codes to indicate the success or failure of requests. In case of an error, the response will include a message describing the error.
+Request:
+```
+GET /users/USA
+```
 
-Common error codes:
-- 400: Bad Request
-- 404: Not Found
-- 500: Internal Server Error
+Response:
+```json
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "country": "USA",
+    "company": "Tech Corp"
+  },
+  {
+    "id": "3",
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "country": "USA",
+    "company": "Data Systems"
+  }
+]
+```
 
-## Rate Limiting
+### Get Users by Name and Company
 
-[Include information about any rate limiting implemented on the API]
+Request:
+```
+GET /users/John/Tech%20Corp
+```
 
-## Examples
+Response:
+```json
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "country": "USA",
+    "company": "Tech Corp"
+  }
+]
+```
 
-Here are some example requests:
+### Get Users by Email Domain
 
-1. Get all users:
-   ```
-   GET /users/all
-   ```
+Request:
+```
+GET /users/email/example.com
+```
 
-2. Get users ordered by name in descending order:
-   ```
-   GET /users/all/param/name/order/DESC
-   ```
+Response:
+```json
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "country": "USA",
+    "company": "Tech Corp"
+  },
+  {
+    "id": "2",
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "country": "Canada",
+    "company": "Innovate Inc"
+  }
+]
+```
 
-3. Get a user's profile:
-   ```
-   GET /users/12345/profile
-   ```
 
-4. Get users from a specific country:
-   ```
-   GET /users/USA
-   ```
 
-5. Get users by name and company:
-   ```
-   GET /users/John/ACME
-   ```
-
-6. Get users by email domain:
-   ```
-   GET /users/email/acme.com
-   ```
 
 ## Contributing
-
-We welcome contributions to this project. Please follow these steps to contribute:
-
-1. Fork the repository
-2. Create a new branch for your feature
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
-
-Please ensure your code adheres to our coding standards and include unit tests for new features.
+Contributions to Zeus are welcome. Please feel free to submit a Pull Request.
 
 ## License
-
-[Include information about the project's license]
-
----
-
-For more information or support, please contact [your contact information].
+This project is licensed under the MIT License.
